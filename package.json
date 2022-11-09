@@ -4,15 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --exit-child --ignore-watch node_modules src/server.ts",
+    "start": "npx prisma generate --schema src/infra/database/schema.prisma && node dist/server.js",
+    "db:push": "prisma db push --schema src/database/schema.prisma",
+    "db:pull": "prisma db pull --schema src/database/schema.prisma",
+    "docker:build": "docker build . -t nodecrud/node-crud:latest",
+    "docker:run": "docker run --network=host -d -p 3333:3333 nodecrud/node-crud",
+    "docker:start": "yarn docker:build && yarn docker:run"
   },
   "keywords": [],
   "author": "kadolfo",
   "license": "ISC",
   "devDependencies": {
+    "@prisma/client": "^4.5.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.14",
+    "@types/node": "^18.11.8",
+    "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.8.4"
   },
@@ -22,6 +31,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
+    "reflect-metadata": "^0.1.13",
     "yup": "^0.32.11"
   }
 }
